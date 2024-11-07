@@ -1,17 +1,14 @@
-import mariadb from 'mariadb';
+import express from "express";
+import cors from "cors";
+import router from "./routes/router.js";
 
-const pool = mariadb.createPool({
-    host: 'localhost',
-    database: 'paralelepipedo',
-    user: 'root',
-    password: '',
-    connectionLimit: 5
-});
+const app = express();
 
-pool.getConnection()
-.then((res) => {
-    console.log('success', res);
-})
-.catch((err) => {
-    console.log('erro na conexão', err);
+app.use(express.json());
+app.use(cors());
+app.use(router)
+
+
+app.listen(3001, () => {
+    console.log("Servidor rodando na porta: 3001");
 });
