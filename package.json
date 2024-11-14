@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "initdatabase": "initdatabase.bat"
-
+    "initdatabase": "initdatabase.bat",
+    "seeddatabase": "initdatabase_seeded.bat",
+    "initall": "npm run initdatabase && node --watch ./src/index.js",
+    "initall_seed": "npm run initdatabase && npm run seeddatabase && node --watch ./src/index.js"
   },
   "author": "",
   "license": "ISC",

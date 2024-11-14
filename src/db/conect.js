@@ -2,7 +2,7 @@ import mariadb from 'mariadb';
 
 const pool = mariadb.createPool({
     host: 'localhost',
-    database: 'paralelepipedo',
+    database: 'CONSULTORIO',
     user: 'root',
     password: '',
     connectionLimit: 5
@@ -10,7 +10,7 @@ const pool = mariadb.createPool({
 
 pool.getConnection()
 .then((res) => {
-    console.log('success', res);
+    // console.log('success', res);
 })
 .catch((err) => {
     console.log('erro na conexão', err);
