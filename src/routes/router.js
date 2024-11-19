@@ -12,6 +12,9 @@ router.get('/',(req,res)=>{
 //Doctors
 router.get('/doutores',doctorController.getAllDoctor)
 router.get('/doutores/:id',doctorController.getIdDoctor)
+router.post('/doutores/add',doctorController.addDoctor)
+router.put('/doutores/edit/:id',doctorController.editDoctor)
+router.delete('/doutores/del/:id',doctorController.delDoctor)
 
 //clients
 router.get('/clientes',clientsController.getAllClients)
