@@ -91,7 +91,17 @@ CREATE TABLE IF NOT EXISTS CONSULTORIO.FUNCIONARIO  (
    conta_receber_COD  INT NOT NULL,
    PRIMARY KEY ( CODIGO ,  cargo_ID ,  conta_receber_COD ),
    INDEX  fk_funcionario_cargo1_idx  ( cargo_ID  ASC) ,
-   INDEX  fk_funcionario_conta_receber1_idx  ( conta_receber_COD  ASC) 
+   INDEX  fk_funcionario_conta_receber1_idx  ( conta_receber_COD  ASC) ,
+   CONSTRAINT  fk_funcionario_cargo1 
+      FOREIGN KEY ( cargo_ID )
+      REFERENCES CONSULTORIO.CARGO  ( ID )
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+   CONSTRAINT  fk_funcionario_conta_receber1 
+      FOREIGN KEY ( conta_receber_COD )
+      REFERENCES CONSULTORIO.CONTA_RECEBER  ( COD )
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -105,7 +115,17 @@ CREATE TABLE IF NOT EXISTS CONSULTORIO.AGENDAMENTO_CONSULTA (
    doutor_CODIGO  INT NOT NULL,
    PRIMARY KEY ( CODIGO ,  Paciente_CODIGO ,  doutor_CODIGO ),
    INDEX  fk_agendamento_consulta_Paciente1_idx  ( Paciente_CODIGO  ASC) ,
-   INDEX  fk_agendamento_consulta_doutor1_idx  ( doutor_CODIGO  ASC) 
+   INDEX  fk_agendamento_consulta_doutor1_idx  ( doutor_CODIGO  ASC) ,
+   CONSTRAINT  fk_agendamento_consulta_Paciente1 
+      FOREIGN KEY ( Paciente_CODIGO )
+      REFERENCES CONSULTORIO.PACIENTE ( CODIGO )
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+   CONSTRAINT  fk_agendamento_consulta_doutor1 
+      FOREIGN KEY ( doutor_CODIGO )
+      REFERENCES CONSULTORIO.DOUTOR ( CODIGO )
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -124,7 +144,22 @@ CREATE TABLE IF NOT EXISTS CONSULTORIO.CONSULTA (
    PRIMARY KEY ( COD ,  Paciente_CODIGO ,  agendamento_consulta_CODIGO ,  agendamento_consulta_Paciente_CODIGO ,  doutor_CODIGO ,  conta_receber_COD ),
    INDEX  fk_consulta_agendamento_consulta1_idx  ( agendamento_consulta_CODIGO  ASC,  agendamento_consulta_Paciente_CODIGO  ASC) ,
    INDEX  fk_consulta_doutor1_idx  ( doutor_CODIGO  ASC) ,
-   INDEX  fk_consulta_conta_receber1_idx  ( conta_receber_COD  ASC) 
+   INDEX  fk_consulta_conta_receber1_idx  ( conta_receber_COD  ASC) ,
+   CONSTRAINT  fk_consulta_agendamento_consulta1 
+      FOREIGN KEY ( agendamento_consulta_CODIGO  ,  agendamento_consulta_Paciente_CODIGO )
+      REFERENCES CONSULTORIO.AGENDAMENTO_CONSULTA ( CODIGO  ,  Paciente_CODIGO )
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+   CONSTRAINT  fk_consulta_doutor1 
+      FOREIGN KEY ( doutor_CODIGO )
+      REFERENCES CONSULTORIO.DOUTOR ( CODIGO )
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+   CONSTRAINT  fk_consulta_conta_receber1 
+      FOREIGN KEY ( conta_receber_COD )
+      REFERENCES CONSULTORIO.CONTA_RECEBER ( COD )
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -134,7 +169,12 @@ CREATE TABLE IF NOT EXISTS CONSULTORIO.HISTORICO_ODONTOLOGICO (
    consulta_COD  INT NOT NULL,
    consulta_Paciente_CODIGO  INT NOT NULL,
    PRONTUARIO  VARCHAR(500) NOT NULL,
-   PRIMARY KEY ( consulta_COD ,  consulta_Paciente_CODIGO )
+   PRIMARY KEY ( consulta_COD ,  consulta_Paciente_CODIGO ),
+   CONSTRAINT  fk_historico_odontologico_consulta1 
+      FOREIGN KEY ( consulta_COD  ,  consulta_Paciente_CODIGO )
+      REFERENCES CONSULTORIO.CONSULTA ( COD  ,  Paciente_CODIGO )
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -146,7 +186,17 @@ CREATE TABLE IF NOT EXISTS CONSULTORIO.ESPECIALIDADE_DOUTOR  (
    OBSERVACAO  VARCHAR(45) NULL,
    PRIMARY KEY ( doutor_CODIGO ,  especialidade_ID ),
    INDEX  fk_doutor_has_especialidade_especialidade1_idx  ( especialidade_ID  ASC) ,
-   INDEX  fk_doutor_has_especialidade_doutor1_idx  ( doutor_CODIGO  ASC) 
+   INDEX  fk_doutor_has_especialidade_doutor1_idx  ( doutor_CODIGO  ASC) ,
+   CONSTRAINT  fk_doutor_has_especialidade_doutor1 
+      FOREIGN KEY ( doutor_CODIGO )
+      REFERENCES CONSULTORIO.DOUTOR  ( CODIGO )
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+   CONSTRAINT  fk_doutor_has_especialidade_especialidade1 
+      FOREIGN KEY ( especialidade_ID )
+      REFERENCES CONSULTORIO.ESPECIALIDADE  ( ID )
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -158,5 +208,15 @@ CREATE TABLE IF NOT EXISTS CONSULTORIO.PACIENTE_ESTOQUE (
    QTD  DECIMAL(11) NOT NULL,
    PRIMARY KEY ( paciente_codigo ,  material_codigo ),
    INDEX  fk_paciente_has_estoque_material1_idx  ( material_codigo  ASC) ,
-   INDEX  fk_paciente_has_estoque_paciente1_idx  ( paciente_codigo  ASC) 
+   INDEX  fk_paciente_has_estoque_paciente1_idx  ( paciente_codigo  ASC) ,
+   CONSTRAINT  fk_paciente_has_estoque_paciente1 
+      FOREIGN KEY ( paciente_codigo )
+      REFERENCES CONSULTORIO.PACIENTE  ( CODIGO )
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION,
+   CONSTRAINT  fk_paciente_has_estoque_material1 
+      FOREIGN KEY ( material_codigo )
+      REFERENCES CONSULTORIO.ESTOQUE ( COD_MATERIAL )
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION
 ) ENGINE = InnoDB;

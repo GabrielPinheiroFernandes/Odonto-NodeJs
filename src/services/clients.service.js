@@ -1,16 +1,34 @@
-import conect from "../db/conect.js";
+import clientsRepository from "../repository/clients.repository.js";
 
-async function getAllclients() {
-    const sql = 'select * from paciente;';
-
-    const clients = await conect.executeQuery(sql, []);
-
-    console.log(clients);
-    if (clients && clients.length > 0) { 
-        return clients;
-    } else {
-        return [];
-    }
+// Função para obter todos os clientes
+async function getAllClients() {
+    return await clientsRepository.getAllClients();
 }
 
-export default { getAllclients };
+// Função para obter um cliente por ID
+async function getIdClient(id) {
+    return await clientsRepository.getIdClient(id);
+}
+
+// Função para adicionar um cliente
+async function addClient(clientData) {
+    return await clientsRepository.addClient(clientData);
+}
+
+// Função para editar um cliente
+async function editClient(id, clientData) {
+    return await clientsRepository.editClient(id, clientData);
+}
+
+// Função para deletar um cliente
+async function delClient(id) {
+    return await clientsRepository.delClient(id);
+}
+
+export default {
+    getAllClients,
+    getIdClient,
+    addClient,
+    editClient,
+    delClient
+};
