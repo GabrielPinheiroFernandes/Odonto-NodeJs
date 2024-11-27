@@ -1,7 +1,8 @@
 import { Router } from "express";
 import doctorController from "../controllers/doctor.controller.js";
 import clientsController from "../controllers/clients.controller.js";
-// import doct_cliController from "../controllers/doct_cli.controller.js"; // Controlador de doct_cli
+import consultaController from "../controllers/consulta.controller.js";
+
 
 const router = Router();
 
@@ -24,19 +25,22 @@ router.post('/clientes/add', clientsController.addClient);  // Adiciona um novo 
 router.put('/clientes/edit/:id', clientsController.editClient);  // Edita um cliente
 router.delete('/clientes/del/:id', clientsController.delClient);  // Deleta um cliente
 
-// // **Doct_cli (Associação entre Doutores e Clientes)**
-// router.get('/doct_cli', doct_cliController.getAllDoct_cli);  // Lista todas as associações entre doutores e clientes
+// **Consultas (Associação entre Doutores e Clientes)**
+router.get('/consultas', consultaController.getAllconsultas);  // Lista todas as consultas (associações entre doutores e clientes)
 
-// // Rota para listar todos os clientes de um doutor específico
-// router.get('/doct_cli/doutor/:id', doct_cliController.getClientsByDoctor);  // Lista clientes associados a um doutor específico
+// Rota para listar todos os clientes de um doutor específico
+router.get('/consultas/doutor/:id', consultaController.getClientsByDoctor);  // Lista clientes associados a um doutor específico
 
-// // Rota para listar todos os doutores de um cliente específico
-// router.get('/doct_cli/cliente/:id', doct_cliController.getDoctorsByClient);  // Lista doutores associados a um cliente específico
+// Rota para listar todos os doutores de um cliente específico
+router.get('/consultas/cliente/:id', consultaController.getDoctorsByClient);  // Lista doutores associados a um cliente específico
 
-// // Rota para associar um cliente a um doutor (criar uma associação)
-// router.post('/doct_cli/add', doct_cliController.addDoctCli);  // Cria uma nova associação entre doutor e cliente
+// Rota para criar uma nova consulta (associar um cliente a um doutor)
+router.post('/consultas/add', consultaController.addConsulta);  // Cria uma nova consulta entre doutor e cliente
 
-// // Rota para desassociar um cliente de um doutor (remover a associação)
-// router.delete('/doct_cli/del/:doctorId/:clientId', doct_cliController.delDoctCli);  // Remove a associação entre doutor e cliente
+// Rota para deletar uma consulta (desassociar um cliente de um doutor)
+router.delete('/consultas/del/:consultaId', consultaController.delConsulta);  // Remove a consulta entre doutor e cliente
 
+// Rota para deletar uma consulta (desassociar um cliente de um doutor)
+router.put('/consultas/edit/:consultaId', consultaController.putConsulta);  // Remove a consulta entre doutor e cliente
 export default router;
+
