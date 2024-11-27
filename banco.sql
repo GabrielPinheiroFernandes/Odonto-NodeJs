@@ -25,13 +25,13 @@ DROP TABLE IF EXISTS `consulta`;
 CREATE TABLE IF NOT EXISTS `consulta` (
   `COD` int(11) NOT NULL AUTO_INCREMENT,
   `DATA_CONSULTA` datetime NOT NULL,
-  `STATUS` char(2) NOT NULL,
+  `STATUS` char(2) NOT NULL DEFAULT 'PD' COMMENT 'AT = atendido | PD = pendente',
   `OBSERVACAO_MEDICA` varchar(500) DEFAULT NULL,
   `Paciente_CODIGO` int(11) NOT NULL,
   `doutor_CODIGO` int(11) NOT NULL,
   PRIMARY KEY (`COD`,`Paciente_CODIGO`,`doutor_CODIGO`) USING BTREE,
   KEY `fk_consulta_doutor1_idx` (`doutor_CODIGO`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- Data exporting was unselected.
 
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `paciente` (
   `PLANO_SAUDE` char(1) NOT NULL,
   `OBSERVACAO` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`CODIGO`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- Data exporting was unselected.
 
